@@ -547,14 +547,17 @@ async def game_text_handler(message: Message, state: FSMContext):
 @dp.message(StateFilter(None), F.text.regexp(r"^(\d+[\.,]?\d*)[\$💰]?$"))
 async def set_bet_by_text_handler(message: Message, state: FSMContext):
     """Установка ставки через текст (например, '0.1 💰')"""
-    # Проверка, что сообщение отправлено в приватном чате или пользователь ответил на сообщение бота
-    # Но так как бот должен реагировать на сообщения в чате, добавим проверку:
-    
+    # Проверяем, не находится ли пользователь в каком-либо состоянии ввода
+    current_state = await state.get_state()
+    if current_state is not None:
+        # Если пользователь в состоянии ввода (депозит/вывод) - игнорируем
+        return
+        
     user_id = message.from_user.id
     text = message.text.replace("$", "").replace("💰", "").replace(",", ".").strip()
     try:
         amount = float(text)
-        if amount < 0.01:
+        if amount < 0.1:
             return await message.answer("❌ Минимальная ставка — <b>0.01 💰</b>")
         
         if amount > config.MAX_BET:
@@ -686,7 +689,6 @@ async def text_games_handler(message: Message, user_id: int = None):
     builder = InlineKeyboardBuilder()
     # 1 ряд: Эмодзи-игры
     builder.row(
-        InlineKeyboardButton(text="🎲", callback_data=f"game:dice_emoji:{user_id}"),
         InlineKeyboardButton(text="⚽", callback_data=f"game:soccer:{user_id}"),
         InlineKeyboardButton(text="🏀", callback_data=f"game:basket:{user_id}"),
         InlineKeyboardButton(text="🎯", callback_data=f"game:darts:{user_id}"),
