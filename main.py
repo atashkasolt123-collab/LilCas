@@ -503,25 +503,21 @@ def get_lang(user_id: int) -> str:
     return data[2] if data else "ru"
 
 def get_text(user_id: int, key: str, **kwargs) -> str:
-    """Возвращает текст по ключу для текущего языка пользователя с заменой эмодзи и параметров"""
+    """Возвращает текст по ключу для текущего языка пользователя с подстановкой параметров"""
     lang = get_lang(user_id)
     text = config.TEXTS[lang].get(key, "")
     
-    # Добавляем в kwargs базовые эмодзи, если их нет
-    if "balance_emoji" not in kwargs:
-        kwargs["balance_emoji"] = get_balance_emoji(user_id)
+    # Если текст не найден, возвращаем пустую строку
+    if not text:
+        return ""
     
-    # Форматируем с переданными параметрами
-    if kwargs:
-        try:
-            text = text.format(**kwargs)
-        except KeyError as e:
-            logger.error(f"Missing key in text formatting: {e}")
-        except Exception as e:
-            logger.error(f"Error formatting text: {e}")
-    
-    # Заменяем маркеры эмодзи
-    text = format_text_with_emojis(text, user_id)
+    # Подставляем все переданные параметры
+    try:
+        text = text.format(**kwargs)
+    except KeyError as e:
+        logger.error(f"Missing key in text formatting: {e} for key '{key}' with kwargs {kwargs}")
+    except Exception as e:
+        logger.error(f"Error formatting text: {e}")
     
     # Заменяем юзернейм бота
     if isinstance(text, str):
@@ -1484,6 +1480,9 @@ async def main_menu_callback(callback: CallbackQuery):
 
 @dp.callback_query(F.data.startswith("profile:"))
 async def profile_callback(callback: CallbackQuery):
+    """Обработчик кнопки Профиль""
+    @dp.callback_query(F.data.startswith("profile:"))
+async def profile_callback(callback: CallbackQuery):
     """Обработчик кнопки Профиль"""
     owner_id = int(callback.data.split(":")[-1])
     if not await check_owner(callback, owner_id):
@@ -1497,11 +1496,10 @@ async def profile_callback(callback: CallbackQuery):
         db.register_user(user_id, callback.from_user.username or callback.from_user.first_name)
         user_data = db.get_user_data(user_id)
 
+    # Распаковываем данные пользователя
     reg_date_str, player_num, lang, balance, privacy_type, nickname, username, total_bets, total_turnover, total_deposits, total_withdrawals, current_bet, referrer_id, ref_balance, total_ref_earned, rank_id = user_data
     
     # Расчет прогресса ранга
-    # Ранг повышается каждые 1000 оборота
-    # Процент прогресса до следующего ранга: (остаток от деления оборота на 1000) / 1000 * 100
     rank_progress = (total_turnover % 1000) / 1000 * 100
     current_rank_name = RANKS[min(rank_id, len(RANKS)-1)]
     next_rank_name = RANKS[min(rank_id + 1, len(RANKS)-1)]
@@ -1532,9 +1530,13 @@ async def profile_callback(callback: CallbackQuery):
         else:
             days_text = f"{days_delta} days"
 
-    # Получаем шаблон текста из конфига и форматируем его
+    # Получаем отображаемое имя
     display_name = get_user_display_name(user_id, callback.from_user.first_name)
-    profile_text = get_text(user_id, "profile",
+    
+    # Формируем текст профиля с передачей всех параметров
+    profile_text = get_text(
+        user_id, 
+        "profile",
         player_id=player_num,
         name=display_name,
         balance=balance,
