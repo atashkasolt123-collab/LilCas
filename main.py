@@ -558,7 +558,7 @@ async def set_bet_by_text_handler(message: Message, state: FSMContext):
     try:
         amount = float(text)
         if amount < 0.1:
-            return await message.answer("❌ Минимальная ставка — <b>0.01 💰</b>")
+            return await message.answer("❌ Минимальная ставка — <b>0.1 💰</b>")
         
         if amount > config.MAX_BET:
             return await message.answer(f"❌ Максимальная ставка — <b>{config.MAX_BET:.2f} 💰</b>")
@@ -1839,7 +1839,6 @@ async def play_callback(callback: CallbackQuery, state: FSMContext):
     builder = InlineKeyboardBuilder()
     # Игры (эмодзи)
     builder.row(
-        InlineKeyboardButton(text=get_btn(user_id, "game_dice"), callback_data=f"game:dice_emoji:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_soccer"), callback_data=f"game:soccer:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_basket"), callback_data=f"game:basket:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_darts"), callback_data=f"game:darts:{user_id}"),
