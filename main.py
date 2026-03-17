@@ -522,7 +522,6 @@ async def game_text_handler(message: Message, state: FSMContext):
 
     text = message.text.lower()
     game_map = {
-        "дартс": "darts",
         "футбол": "soccer",
         "боулинг": "bowling",
         "слоты": "slots",
@@ -1841,7 +1840,6 @@ async def play_callback(callback: CallbackQuery, state: FSMContext):
     builder.row(
         InlineKeyboardButton(text=get_btn(user_id, "game_soccer"), callback_data=f"game:soccer:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_basket"), callback_data=f"game:basket:{user_id}"),
-        InlineKeyboardButton(text=get_btn(user_id, "game_darts"), callback_data=f"game:darts:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_bowling"), callback_data=f"game:bowling:{user_id}"),
         InlineKeyboardButton(text=get_btn(user_id, "game_slots"), callback_data=f"game:slots:{user_id}")
     )
