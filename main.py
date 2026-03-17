@@ -2155,18 +2155,18 @@ async def process_nickname(message: Message, state: FSMContext):
     await command_start_handler(message)
 
 async def send_alert(bot: Bot, user_id: int, amount: float, type: str):
-    """Отправка уведомления в канал крупных событий (>50 💰)"""
+    """Отправка уведомления в канал крупных событий (>50)"""
     if amount < 50:
         return
         
     try:
         user_name = get_user_display_name(user_id)
         if type == "deposit":
-            text = f"💰 <b>Крупное пополнение!</b>\n\n👤 Игрок: {user_name}\n💵 Сумма: <b>{amount:.2f} {get_balance_emoji()}</b>"
+            text = f"💰 <b>Крупное пополнение!</b>\n\n👤 Игрок: {user_name}\n💵 Сумма: <b>{amount:.2f} 💰</b>"
         elif type == "withdraw":
-            text = f"📥 <b>Крупный вывод!</b>\n\n👤 Игрок: {user_name}\n💵 Сумма: <b>{amount:.2f} {get_balance_emoji()}</b>"
+            text = f"📥 <b>Крупный вывод!</b>\n\n👤 Игрок: {user_name}\n💵 Сумма: <b>{amount:.2f} 💰</b>"
         elif type == "win":
-            text = f"🎉 <b>Огромная победа!</b>\n\n👤 Игрок: {user_name}\n💵 Выигрыш: <b>{amount:.2f} {get_balance_emoji()}</b>"
+            text = f"🎉 <b>Огромная победа!</b>\n\n👤 Игрок: {user_name}\n💵 Выигрыш: <b>{amount:.2f} 💰</b>"
         else:
             return
 
