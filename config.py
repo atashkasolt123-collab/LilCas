@@ -229,7 +229,6 @@ TEXTS = {
             "claim_ref": "Claim to balance · 0.00 💰",
             "invite_friend": "Invite a friend",
             "details": "Details",
-            "game_dice": "🎲",
             "game_soccer": "⚽",
             "game_basket": "🏀",
             "game_darts": "🎯",
