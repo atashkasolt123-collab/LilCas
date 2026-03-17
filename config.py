@@ -231,7 +231,6 @@ TEXTS = {
             "details": "Details",
             "game_soccer": "⚽",
             "game_basket": "🏀",
-            "game_darts": "🎯",
             "game_bowling": "🎳",
             "game_slots": "🎰",
             "provider_tg": "⛄ Telegram",
