@@ -1509,7 +1509,7 @@ async def withdraw_method_callback(callback: CallbackQuery, state: FSMContext):
             
             # Уведомление пользователю
             await callback.message.edit_text(
-                "❌ Автоматический вывод временно недоступен (пустая казна).\n"
+                "❌ Ручной вывод\n"
                 "🛡 Мы отправили запрос администраторам, они выплатят вам вручную в ближайшее время!",
                 parse_mode=ParseMode.HTML
             )
