@@ -2317,7 +2317,7 @@ async def modes_menu_handler(callback: CallbackQuery, state: FSMContext):
 
 # --- Функции для игры Мины ---
 def get_mines_coef(step, total_mines, commission=0.94):
-    """Расчет коэффициента для игры Мины 5x5"""
+    """Расчет коэффициента для игры Мины (поле 5 на 5)"""
     if step == 0:
         return 1.0
     if step > (25 - total_mines):
