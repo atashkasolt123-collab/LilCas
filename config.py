@@ -56,8 +56,8 @@ TEXTS = {
     "ru": {
         "welcome": (
             "<b>{casino} Привет, добро пожаловать в AdvanceCasino</b>\n\n"
-            "<blockquote>{info} Подписывайся на <a href='{channel_url}'>наш канал</a> чтобы следить за новостями и конкурсами.</blockquote>"
-        ).format(channel_url=CHANNEL_URL),
+            "<blockquote>{info} Подписывайся на <a href='" + CHANNEL_URL + "'>наш канал</a> чтобы следить за новостями и конкурсами.</blockquote>"
+        ),
         
         "profile": (
             "<b>{user} #{player_id} {name}</b>\n\n"
@@ -220,8 +220,8 @@ TEXTS = {
     "en": {
         "welcome": (
             "<b>{casino} Hello, welcome to AdvanceCasino</b>\n\n"
-            "<blockquote>{info} Subscribe to <a href='{channel_url}'>our channel</a> to follow news and contests.</blockquote>"
-        ).format(channel_url=CHANNEL_URL),
+            "<blockquote>{info} Subscribe to <a href='" + CHANNEL_URL + "'>our channel</a> to follow news and contests.</blockquote>"
+        ),
         
         "profile": (
             "<b>{user} #{player_id} {name}</b>\n\n"
@@ -260,6 +260,26 @@ TEXTS = {
             "<blockquote>{balance} Balance — {balance:.2f} {balance_emoji}\n"
             "{bet} Bet — {bet:.2f} {balance_emoji}</blockquote>\n\n"
             "{info} Deposit and play for real money"
+        ),
+        
+        "mines_main": (
+            "<b>{mine} Mines</b>\n\n"
+            "{user} Player #{player_id}\n"
+            "<blockquote>{card} Balance — {balance:,.2f} {balance_emoji}\n"
+            "{bet} Bet — {bet:,.2f} {balance_emoji}</blockquote>\n\n"
+            "{min} Selected — {mines} {mine}"
+        ),
+        
+        "mines_select": (
+            "{casino} <b>Select amount</b>\n\n"
+            "{min} Selected — <b>{mines} {mine}</b>\n\n"
+            "<blockquote>{coefs}</blockquote>"
+        ),
+        
+        "mines_playing": (
+            "<blockquote><b>{mine} Mines · {mines} {mine}</b></blockquote>\n\n"
+            "<b>{bet:,.2f} {balance_emoji} × {coef:.2f} ➔ {win:,.2f} {balance_emoji}</b>\n\n"
+            "<blockquote>{coefs}</blockquote>"
         ),
         
         "deposit_method": "{deposit} Choose deposit method",
